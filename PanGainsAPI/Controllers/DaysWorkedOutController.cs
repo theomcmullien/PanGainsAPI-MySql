@@ -31,12 +31,12 @@ namespace PanGainsAPI.Controllers
             return await _context.DaysWorkedOut.ToListAsync();
         }
 
-        // GET: api/DaysWorkedOuts/5/Monday
-        [HttpGet("{accountID}/{day}")]
-        public async Task<ActionResult<DaysWorkedOut>> GetDaysWorkedOut(int accountID, string day)
+        // GET: api/DaysWorkedOuts/5
+        [HttpGet("{accountID}")]
+        public async Task<ActionResult<IEnumerable<DaysWorkedOut>>> GetDaysWorkedOut(int accountID)
         {
             IEnumerable<DaysWorkedOut> daysWorkedOutList = await _context.DaysWorkedOut.ToListAsync();
-            DaysWorkedOut daysWorkedOut = daysWorkedOutList.Where(d => d.AccountID == accountID && d.Day == day).First();
+            DaysWorkedOut[] daysWorkedOut = daysWorkedOutList.Where(d => d.AccountID == accountID).ToArray();
 
             if (daysWorkedOut == null) return NotFound();
 

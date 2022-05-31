@@ -66,9 +66,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    for (int i =0;i<100;i++) {
-        Console.WriteLine("Sup Pussy");
-    }
 }
 
 //Remove this line when Hosting will cause issues without SSL Cert
