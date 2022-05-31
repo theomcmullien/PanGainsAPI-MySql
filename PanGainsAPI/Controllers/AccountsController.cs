@@ -32,10 +32,10 @@ namespace PanGainsAPI.Controllers
         }
 
         // GET: api/Accounts/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
+        [HttpGet("{email}")]
+        public async Task<ActionResult<Account>> GetAccount(string email)
         {
-            var account = await _context.Account.FindAsync(id);
+            var account =  _context.Account.FirstOrDefault(em => em.Email == email);
 
             if (account == null) return NotFound();
 
