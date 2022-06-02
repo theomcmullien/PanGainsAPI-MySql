@@ -36,8 +36,8 @@ namespace PanGainsAPI.Controllers
             account.AverageChallengePos = 0;
             account.Type = "";
             account.Role = "Account";
-            account.PasswordHash = passwordHash;
-            account.PasswordSalt = passwordSalt;
+            /*account.PasswordHash = passwordHash;
+            account.PasswordSalt = passwordSalt;*/
 
             context.Account.Add(account);
             try
@@ -51,7 +51,7 @@ namespace PanGainsAPI.Controllers
             return Ok(account);
         }
 
-        [HttpPost("Login")]
+        /*[HttpPost("Login")]
         [AllowAnonymous]
         public async Task<ActionResult<string>> Login(Login request)
         {
@@ -67,7 +67,7 @@ namespace PanGainsAPI.Controllers
             }
             string token = CreateToken(account);
             return Ok(token);
-        }
+        }*/
 
         private string CreateToken(Account account)
         {
