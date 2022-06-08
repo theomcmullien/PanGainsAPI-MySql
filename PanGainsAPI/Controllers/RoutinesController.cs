@@ -33,14 +33,40 @@ namespace PanGainsAPI.Controllers
 
         // GET: api/Routines/5
         [HttpGet("{folderID}")]
-        public async Task<ActionResult<IEnumerable<Routine>>> GetRoutine(int folderID)
+        public async Task<ActionResult<IEnumerable<RoutineWithExercises>>> GetRoutine(int folderID)
         {
-            IEnumerable<Routine> routinesList = await _context.Routine.ToListAsync();
+            List<RoutineWithExercises> list = new List<RoutineWithExercises>();
+
+            var routinesList = await _context.Routine.ToListAsync();
             List<Routine> routines = routinesList.Where(r => r.FolderID == folderID).ToList();
 
-            if (routines == null) return NotFound();
+            foreach (Routine routine in routines)
+            {
+                RoutineWithExercises r = new RoutineWithExercises();
+                r.RoutineID = routine.RoutineID;
+                r.RoutineName = routine.RoutineName;
 
-            return routines;
+                var yourExercisesList = await _context.YourExercise.ToListAsync();
+                List<YourExercise> yourExercises = yourExercisesList.Where(y => y.RoutineID == routine.RoutineID).ToList();
+                var exercisesList = await _context.Exercise.ToListAsync();
+
+                List<string> exercises = new List<string>();
+
+                foreach (YourExercise y in yourExercises)
+                {
+                    foreach (Exercise e in exercisesList)
+                    {
+                        if (y.ExerciseID == e.ExerciseID) exercises.Add(e.ExerciseName);
+                    }
+                }
+
+                r.Exercises = exercises;
+                list.Add(r);
+            }
+
+            if (list == null) return NotFound();
+
+            return list;
         }
 
         // PUT: api/Routines/5
