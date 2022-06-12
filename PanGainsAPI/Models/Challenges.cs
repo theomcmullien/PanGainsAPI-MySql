@@ -3,7 +3,7 @@
     public class Challenges
     {
         [Key]
-        public int ChallengeID { get; set; }
+        public int ChallengesID { get; set; }
         [Required]
         public string? ChallengeName { get; set; }
     }

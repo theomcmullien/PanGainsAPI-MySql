@@ -55,7 +55,7 @@ namespace PanGainsAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutChallenges(int id, Challenges challenges)
         {
-            if (id != challenges.ChallengeID)
+            if (id != challenges.ChallengesID)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace PanGainsAPI.Controllers
             _context.Challenges.Add(challenges);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetChallenges", new { id = challenges.ChallengeID }, challenges);
+            return CreatedAtAction("GetChallenges", new { id = challenges.ChallengesID }, challenges);
         }
 
         // DELETE: api/Challenges/5
@@ -118,7 +118,7 @@ namespace PanGainsAPI.Controllers
 
         private bool ChallengesExists(int id)
         {
-            return (_context.Challenges?.Any(e => e.ChallengeID == id)).GetValueOrDefault();
+            return (_context.Challenges?.Any(e => e.ChallengesID == id)).GetValueOrDefault();
         }
     }
 }

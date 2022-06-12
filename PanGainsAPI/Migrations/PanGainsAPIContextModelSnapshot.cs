@@ -73,7 +73,7 @@ namespace PanGainsAPI.Migrations
 
             modelBuilder.Entity("PanGainsAPI.Models.Challenges", b =>
                 {
-                    b.Property<int>("ChallengeID")
+                    b.Property<int>("ChallengesID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -81,7 +81,7 @@ namespace PanGainsAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("ChallengeID");
+                    b.HasKey("ChallengesID");
 
                     b.ToTable("Challenges");
                 });

@@ -35,7 +35,8 @@ namespace PanGainsAPI.Controllers
         [HttpGet("{email}")]
         public async Task<ActionResult<Account>> GetAccount(string email)
         {
-            var account =  _context.Account.FirstOrDefault(em => em.Email == email);
+            var accountsList = await _context.Account.ToListAsync();
+            Account account = accountsList.Where(e => e.Email == email).First();
 
             if (account == null) return NotFound();
 

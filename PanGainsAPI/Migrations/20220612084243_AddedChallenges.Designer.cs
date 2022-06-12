@@ -11,7 +11,7 @@ using PanGainsAPI.Data;
 namespace PanGainsAPI.Migrations
 {
     [DbContext(typeof(PanGainsAPIContext))]
-    [Migration("20220612082633_AddedChallenges")]
+    [Migration("20220612084243_AddedChallenges")]
     partial class AddedChallenges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,7 +75,7 @@ namespace PanGainsAPI.Migrations
 
             modelBuilder.Entity("PanGainsAPI.Models.Challenges", b =>
                 {
-                    b.Property<int>("ChallengeID")
+                    b.Property<int>("ChallengesID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -83,7 +83,7 @@ namespace PanGainsAPI.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("ChallengeID");
+                    b.HasKey("ChallengesID");
 
                     b.ToTable("Challenges");
                 });
