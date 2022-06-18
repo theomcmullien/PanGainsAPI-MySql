@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PanGainsAPI.Data;
 
@@ -10,9 +11,10 @@ using PanGainsAPI.Data;
 namespace PanGainsAPI.Migrations
 {
     [DbContext(typeof(PanGainsAPIContext))]
-    partial class PanGainsAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20220612084243_AddedChallenges")]
+    partial class AddedChallenges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,9 +195,6 @@ namespace PanGainsAPI.Migrations
                 {
                     b.Property<int>("LeaderboardID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChallengesID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LeaderboardDate")
