@@ -11,7 +11,7 @@
         [Required]
         public DateTime DateCompleted { get; set; }
         [Required]
-        public int Duration { get; set; }
+        public string? Duration { get; set; }
         [Required]
         public double TotalWeightLifted { get; set; }
     }
