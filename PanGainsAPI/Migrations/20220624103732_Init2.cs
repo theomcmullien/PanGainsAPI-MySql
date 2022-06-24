@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PanGainsAPI.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,8 +25,8 @@ namespace PanGainsAPI.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PasswordHash = table.Column<byte[]>(type: "longblob", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "longblob", nullable: false),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Title = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfilePicture = table.Column<string>(type: "longtext", nullable: true)
@@ -44,6 +44,21 @@ namespace PanGainsAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Account", x => x.AccountID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Challenges",
+                columns: table => new
+                {
+                    ChallengesID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ChallengeName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Challenges", x => x.ChallengesID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -72,7 +87,8 @@ namespace PanGainsAPI.Migrations
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     RoutineID = table.Column<int>(type: "int", nullable: false),
                     DateCompleted = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TotalWeightLifted = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
@@ -136,6 +152,7 @@ namespace PanGainsAPI.Migrations
                 {
                     LeaderboardID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ChallengesID = table.Column<int>(type: "int", nullable: false),
                     LeaderboardDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     TotalParticipants = table.Column<int>(type: "int", nullable: false)
                 },
@@ -255,6 +272,9 @@ namespace PanGainsAPI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Account");
+
+            migrationBuilder.DropTable(
+                name: "Challenges");
 
             migrationBuilder.DropTable(
                 name: "ChallengeStats");

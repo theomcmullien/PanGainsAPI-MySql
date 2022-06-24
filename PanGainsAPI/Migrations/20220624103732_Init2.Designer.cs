@@ -11,8 +11,8 @@ using PanGainsAPI.Data;
 namespace PanGainsAPI.Migrations
 {
     [DbContext(typeof(PanGainsAPIContext))]
-    [Migration("20220612084243_AddedChallenges")]
-    partial class AddedChallenges
+    [Migration("20220624103732_Init2")]
+    partial class Init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,8 +120,9 @@ namespace PanGainsAPI.Migrations
                     b.Property<DateTime>("DateCompleted")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("RoutineID")
                         .HasColumnType("int");
@@ -195,6 +196,9 @@ namespace PanGainsAPI.Migrations
                 {
                     b.Property<int>("LeaderboardID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengesID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LeaderboardDate")
