@@ -9,7 +9,7 @@
         [Required]
         public int RoutineID { get; set; }
         [Required]
-        public DateTime DateCompleted { get; set; }
+        public string? DateCompleted { get; set; }
         [Required]
         public string? Duration { get; set; }
         [Required]

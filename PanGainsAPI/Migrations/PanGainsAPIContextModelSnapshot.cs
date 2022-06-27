@@ -115,8 +115,9 @@ namespace PanGainsAPI.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCompleted")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("DateCompleted")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Duration")
                         .IsRequired()

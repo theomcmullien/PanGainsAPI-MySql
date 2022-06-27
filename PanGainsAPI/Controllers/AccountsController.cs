@@ -78,7 +78,7 @@ namespace PanGainsAPI.Controllers
             statistics.AccountID = maxAccountID;
             _context.Statistics.Add(statistics);
 
-            string[] days = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            string[] days = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 
             for (int i = 0; i < days.Length; i++)
             {
