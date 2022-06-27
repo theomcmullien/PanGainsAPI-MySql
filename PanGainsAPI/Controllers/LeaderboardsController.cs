@@ -26,14 +26,19 @@ namespace PanGainsAPI.Controllers
 
         // GET: api/Leaderboards
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Leaderboard>>> GetLeaderboard()
+        public async Task<ActionResult<Leaderboard>> GetLeaderboard()
         {
-            return await _context.Leaderboard.ToListAsync();
+            IEnumerable<Leaderboard> leaderboardsList = await _context.Leaderboard.ToListAsync();
+            Leaderboard leaderboard = leaderboardsList.Where(l => l.LeaderboardDate.Month == DateTime.Now.Month && l.LeaderboardDate.Year == DateTime.Now.Year).First();
+
+            if (leaderboard == null) return NotFound();
+
+            return leaderboard;
         }
 
         // GET: api/Leaderboards/5
         [HttpGet("{leaderboardDate}")]
-        public async Task<ActionResult<Leaderboard>> GetLeaderboard(DateTime leaderboardDate)
+        public async Task<ActionResult<Leaderboard>> GetLeaderboard(DateTime leaderboardDate) // use the other one bro ^
         {
             IEnumerable<Leaderboard> leaderboardsList = await _context.Leaderboard.ToListAsync();
             Leaderboard leaderboard = leaderboardsList.Where(l => l.LeaderboardDate.Month == leaderboardDate.Month && l.LeaderboardDate.Year == leaderboardDate.Year).First();
