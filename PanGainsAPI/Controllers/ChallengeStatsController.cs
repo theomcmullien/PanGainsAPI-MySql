@@ -28,7 +28,16 @@ namespace PanGainsAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChallengeStats>>> GetChallengeStats()
         {
-            return await _context.ChallengeStats.ToListAsync();
+            IEnumerable<ChallengeStats> challengeStatsList = await _context.ChallengeStats.ToListAsync();
+            IEnumerable<Leaderboard> leaderboardsList = await _context.Leaderboard.ToListAsync();
+
+            Leaderboard leaderboard = leaderboardsList.Where(l => l.LeaderboardDate.Month == DateTime.Now.Month && l.LeaderboardDate.Year == DateTime.Now.Year).First();
+
+            var challengeStats = challengeStatsList.Where(c => c.LeaderboardID == leaderboard.LeaderboardID).ToList();
+
+            if (challengeStats == null) return NotFound();
+
+            return challengeStats;
         }
 
         // GET: api/ChallengeStats/5
