@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PanGainsAPI.Data;
 using PanGainsAPI.Models;
@@ -26,8 +27,12 @@ namespace PanGainsAPI.Controllers
 
         [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<ActionResult<Account>> Register(AccountAuth request) {
-            Account account = new Models.Account();            
+        public async Task<ActionResult<Account>> Register(AccountAuth request)
+        {
+            var accountsList = await context.Account.ToListAsync();
+            foreach (var a in accountsList) if (a.Email == request.Email) return BadRequest("Email already exists");
+
+            Account account = new Models.Account();
             account.Firstname = request.Firstname;
             account.Lastname = request.Lastname;
             account.Email = request.Email;
