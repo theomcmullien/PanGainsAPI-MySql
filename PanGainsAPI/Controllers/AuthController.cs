@@ -42,6 +42,9 @@ namespace PanGainsAPI.Controllers
             account.Firstname = request.Firstname;
             account.Lastname = request.Lastname;
             account.Email = request.Email;
+            account.Title = "";
+            account.ProfilePicture = "";
+            account.Description = "";
             account.Private = false;
             account.Notifications = false;
             account.AverageChallengePos = 0;
