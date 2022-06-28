@@ -32,7 +32,13 @@ namespace PanGainsAPI.Controllers
             var accountsList = await context.Account.ToListAsync();
             foreach (var a in accountsList) if (a.Email == request.Email) return BadRequest("Email already exists");
 
+            int maxAccountID = 0;
+            foreach (Account a in await context.Account.ToListAsync()) if (a.AccountID > maxAccountID) maxAccountID = a.AccountID;
+
+            maxAccountID++;
+            
             Account account = new Models.Account();
+            account.AccountID = maxAccountID;
             account.Firstname = request.Firstname;
             account.Lastname = request.Lastname;
             account.Email = request.Email;
@@ -45,15 +51,43 @@ namespace PanGainsAPI.Controllers
             account.MessageToken = getToken(account);
 
             context.Account.Add(account);
-            try
+
+            int maxStatisticsID = 0;
+            foreach (Statistics s in await context.Statistics.ToListAsync()) if (s.StatisticsID > maxStatisticsID) maxStatisticsID = s.StatisticsID;
+            maxStatisticsID++;
+
+            Statistics statistics = new Statistics();
+            statistics.StatisticsID = maxStatisticsID;
+            statistics.AccountID = maxAccountID;
+            statistics.TotalLifted = 0;
+            statistics.AvgSets = statistics.AvgReps = statistics.AvgWorkoutTime = statistics.TotalWorkouts = 0;
+            context.Statistics.Add(statistics);
+
+            string[] days = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+
+            for (int i = 0; i < days.Length; i++)
             {
-                await context.SaveChangesAsync();
+                int maxDaysWorkedOutID = 0;
+                foreach (DaysWorkedOut d1 in await context.DaysWorkedOut.ToListAsync()) if (d1.DaysWorkedOutID > maxDaysWorkedOutID) maxDaysWorkedOutID = d1.DaysWorkedOutID;
+                maxDaysWorkedOutID++;
+
+                DaysWorkedOut d = new DaysWorkedOut();
+                d.DaysWorkedOutID = maxDaysWorkedOutID;
+                d.AccountID = maxAccountID;
+                d.Day = days[i];
+                d.Hours = 0;
+                context.DaysWorkedOut.Add(d);
+
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
-           
-            catch (Exception ex)
-            {
-                throw;
-            }
+
             return Ok(account);
         }
 
