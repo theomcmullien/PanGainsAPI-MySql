@@ -70,6 +70,11 @@ namespace PanGainsAPI.Controllers
             {
                 return BadRequest("User not found");
             }
+            if (account.Password != request.Password)
+            {
+                return BadRequest("Wrong Password");
+
+            }
             string token = CreateToken(account);
             return Ok(token);
         }
