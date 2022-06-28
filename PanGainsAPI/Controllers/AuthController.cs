@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PanGainsAPI.Data;
 using PanGainsAPI.Models;
+using StreamChat.Clients;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -36,6 +37,7 @@ namespace PanGainsAPI.Controllers
             account.Type = "";
             account.Role = "Account";
             account.Password = request.Password;
+            account.MessageToken = getToken(account);
 
             context.Account.Add(account);
             try
@@ -48,6 +50,14 @@ namespace PanGainsAPI.Controllers
                 throw;
             }
             return Ok(account);
+        }
+
+        private string? getToken(Account account)
+        {
+            var factory = new StreamClientFactory("u4ycx472g2x3", "dbk3mmd7hvebwzefnnwpnhe6f2wcfbhvnnvf95p4qtacx9un29bbjbyyvngd6hdc");
+            var userClient = factory.GetUserClient();
+
+            return userClient.CreateToken($"{account.Firstname}-{account.Lastname}");
         }
 
         [HttpPost("Login")]
@@ -68,8 +78,7 @@ namespace PanGainsAPI.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, account.Email),
-                new Claim(ClaimTypes.Role, account.Role),
+                new Claim(ClaimTypes.GivenName, account.Firstname),
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:key"]));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);

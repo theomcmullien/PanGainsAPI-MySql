@@ -30,5 +30,6 @@ namespace PanGainsAPI.Models
         [Required]
         public string? Type { get; set; }
         public string? Role { get; set; } //JWT Signing Claims
+        public string? MessageToken { get; set; }
     }
 }
