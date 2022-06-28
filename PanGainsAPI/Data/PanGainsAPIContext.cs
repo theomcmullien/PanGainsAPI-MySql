@@ -28,6 +28,7 @@ namespace PanGainsAPI.Data
         public DbSet<PanGainsAPI.Models.UserAuth> UserAuth { get; set; }
         public DbSet<PanGainsAPI.Models.YourExercise> YourExercise { get; set; }
         public DbSet<PanGainsAPI.Models.Challenges> Challenges { get; set; }
+        public DbSet<PanGainsAPI.Models.AdminAccount>? AdminAccount { get; set; }
         
 
     }
