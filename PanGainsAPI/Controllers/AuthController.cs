@@ -26,8 +26,7 @@ namespace PanGainsAPI.Controllers
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<ActionResult<Account>> Register(AccountAuth request) {
-            Account account = new Models.Account();
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            Account account = new Models.Account();            
             account.Firstname = request.Firstname;
             account.Lastname = request.Lastname;
             account.Email = request.Email;
@@ -36,14 +35,14 @@ namespace PanGainsAPI.Controllers
             account.AverageChallengePos = 0;
             account.Type = "";
             account.Role = "Account";
-            /*account.PasswordHash = passwordHash;
-            account.PasswordSalt = passwordSalt;*/
+            account.Password = request.Password;
 
             context.Account.Add(account);
             try
             {
                 await context.SaveChangesAsync();
             }
+           
             catch (Exception ex)
             {
                 throw;
@@ -51,7 +50,7 @@ namespace PanGainsAPI.Controllers
             return Ok(account);
         }
 
-        /*[HttpPost("Login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<ActionResult<string>> Login(Login request)
         {
@@ -61,19 +60,14 @@ namespace PanGainsAPI.Controllers
             {
                 return BadRequest("User not found");
             }
-            if (!VerifyPasswordHash(request.Password, account.PasswordHash, account.PasswordSalt))
-            {
-                return BadRequest("Wrong Password");
-            }
             string token = CreateToken(account);
             return Ok(token);
-        }*/
+        }
 
         private string CreateToken(Account account)
         {
             List<Claim> claims = new List<Claim>
             {
-
                 new Claim(ClaimTypes.Email, account.Email),
                 new Claim(ClaimTypes.Role, account.Role),
             };
@@ -88,24 +82,6 @@ namespace PanGainsAPI.Controllers
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (HMACSHA512 hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (HMACSHA512 hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
         }
     }
 
