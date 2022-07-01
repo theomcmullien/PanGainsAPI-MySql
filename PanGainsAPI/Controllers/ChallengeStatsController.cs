@@ -77,13 +77,13 @@ namespace PanGainsAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ChallengeStats>> PostChallengeStats(ChallengeStats challengeStats)
         {
-            //foreach (Leaderboard leaderboard in await _context.Leaderboard.ToListAsync())
-            //{
-            //    if (leaderboard.LeaderboardDate.Month == DateTime.Now.Month && leaderboard.LeaderboardDate.Year == DateTime.Now.Year)
-            //    {
-            //        challengeStats.LeaderboardID = leaderboard.LeaderboardID;
-            //    }
-            //}
+            foreach (Leaderboard leaderboard in await _context.Leaderboard.ToListAsync())
+            {
+                if (leaderboard.LeaderboardDate.Month == DateTime.Now.Month && leaderboard.LeaderboardDate.Year == DateTime.Now.Year)
+                {
+                    challengeStats.LeaderboardID = leaderboard.LeaderboardID;
+                }
+            }
 
             _context.ChallengeStats.Add(challengeStats);
             await _context.SaveChangesAsync();

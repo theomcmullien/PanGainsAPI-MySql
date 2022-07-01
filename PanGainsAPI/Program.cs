@@ -10,11 +10,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddDbContext<PanGainsAPIContext>(options =>
-//    options.UseMySql(builder.Configuration.GetConnectionString("PanGainsMySql"), new MySqlServerVersion(new Version(8, 0, 22))));
-
 builder.Services.AddDbContext<PanGainsAPIContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("PanGainsContextSqlite")));
+    options.UseMySql(builder.Configuration.GetConnectionString("PanGainsMySql"), new MySqlServerVersion(new Version(8, 0, 22))));
+
+//builder.Services.AddDbContext<PanGainsAPIContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("PanGainsContextSqlite")));
 
 // Add services to the container.
 
